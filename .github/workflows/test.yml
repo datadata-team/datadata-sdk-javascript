@@ -1,0 +1,28 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v3
+        with:
+          cache: "pnpm"
+          node-version: ${{ matrix.node-version }}
+      - run: pnpm install
+      - run: pnpm run test:node
+      - run: pnpm run test:jsdom

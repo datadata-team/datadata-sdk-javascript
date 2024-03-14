@@ -3,7 +3,7 @@
 import { defineConfig } from "vite";
 import checker from "vite-plugin-checker";
 import dts from "vite-plugin-dts";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { externalizeDeps } from "vite-plugin-externalize-deps";
 
 export default defineConfig({
   test: {
@@ -18,9 +18,9 @@ export default defineConfig({
     outDir: "./dist/",
     modulePreload: false,
     copyPublicDir: false,
-    rollupOptions: {
-      external: ["axios"],
-    },
+    // rollupOptions: {
+    //   external: ["axios", "crypto-js"],
+    // },
   },
-  plugins: [dts({ tsconfigPath: "./tsconfig.lib.json" }), checker({ typescript: true }), tsconfigPaths()],
+  plugins: [dts({ tsconfigPath: "./tsconfig.lib.json" }), checker({ typescript: true }), externalizeDeps()],
 });
